@@ -1,0 +1,17 @@
+
+<div class="main">
+    <div class="row menuItems">
+      <div id="step1" class="col-4 menuStyling" (click)="modelColor()">Step 1</div>
+      <div id="step2" class="col-4 menuStyling">Step 2</div>
+      <div id="step3" class="col-4 menuStyling">Step 3</div>
+    </div>
+</div>
+
+<router-outlet></router-outlet>
+
+<div *ngIf="carModelColorObj">
+  <img *ngIf="carModelColorObj.selectedCarModelColor"
+  [src]="'https://interstate21.com/tesla-app/images/'+ carModelColorObj.selectedCarModel + '/' + carModelColorObj.selectedCarColor + '.jpg'"
+  alt="Selected tesla model image"
+  [ngStyle]="{'width' : '100%'}">
+</div>

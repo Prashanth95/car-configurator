@@ -1,0 +1,28 @@
+
+<div class="main">
+    <h3 class="p-2">{{headerText}}</h3>
+
+    <ng-container>
+        <div class="row">
+            <div class="col-2 m-2">
+                <label>Model:</label>
+                <select #modelTempleteValue class="dropdownStyling" [attr.ID]="'modelSelect'" (change)="selectedModel(modelTempleteValue.value)">
+                    <option [value]="''" selected>Choose a model</option>
+                    <option *ngFor="let model of models" [value]="model.code">
+                        {{ model.description }}
+                    </option>
+                </select>
+            </div>
+    
+            <div class="col-2 m-2">
+                <label>Color:</label>
+                <select #colorTempleteValue class="dropdownStyling" placeholder="Choose a color" [attr.ID]="'colorSelect'" (change)="selectedColor(colorTempleteValue.value)">
+                    <option [value]="''" selected>Choose a color</option>
+                    <option *ngFor="let color of selectedModelColors" [value]="color.code" (change)="selectedColor(color)">
+                        {{ color.description }}
+                    </option>
+                </select>
+            </div>
+        </div>
+    </ng-container>
+</div>
