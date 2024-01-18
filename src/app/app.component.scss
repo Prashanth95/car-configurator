@@ -11,4 +11,11 @@
     border: 0.5px solid;
     padding: 1%;
     cursor: pointer;
+    background-color: black;
+    color: white;
+}
+
+.disableButton {
+    opacity: 0.5;
+    cursor: none;
 }

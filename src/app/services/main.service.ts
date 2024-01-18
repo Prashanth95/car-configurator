@@ -1,40 +1,91 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { Model } from '../models/models.model';
+import { CarModelDetails, Model, ModelOptionsConfig, SelectedOptionConfig } from '../models/models.model';
 
-const headerOptions: any = new Headers();
 
 @Injectable({
   providedIn: 'root'
 })
 export class MainService {
   selectedModelColor: boolean = false;
-  selectedCarModel: any;
-  selectedCarColor: any;
+  carModelColorDetails:CarModelDetails;
 
-  public selectedCarModelColorDetails:Subject<Array<Model>> = new Subject();
-  public selectedCarModelColorDetails$: Observable<Array<Model>> = this.selectedCarModelColorDetails.asObservable();
+  public selectedCarModelColorDetails:Subject<CarModelDetails> = new Subject();
+  public selectedCarModelColorDetails$: Observable<CarModelDetails> = this.selectedCarModelColorDetails.asObservable();
+
+  public carConfigSubject:Subject<ModelOptionsConfig> = new Subject();
+  public carConfigSubject$: Observable<ModelOptionsConfig> = this.carConfigSubject.asObservable();
+
+  carModelDetails: CarModelDetails;
+  carConfigData: ModelOptionsConfig;
+  towHitchValue: boolean = false;
+  yokeSteering: boolean = false;
 
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getModels(): Observable<Model> {
+  getModels(): Observable<Model[]> {
     const apiUrl = '/models';
-    return this.http.get<Model>(apiUrl);
+    return this.http.get<Model[]>(apiUrl);
   }
 
-  setModelColor(model:Model, color:Model) {
-    let carModelColorDetails:any = {
+  getconfigOptions(modelCode:string): Observable<SelectedOptionConfig> {
+    const apiUrl = `/options/${modelCode}`;
+    return this.http.get<SelectedOptionConfig>(apiUrl);
+  }
+
+  setModelColor(model:string, color:string, selectedModelColorsDescription:string, selectedCarColorPrice:number, modelDesc:string) {
+    this.carModelColorDetails = {
       selectedCarModelColor: true,
       selectedCarModel: model,
-      selectedCarColor: color
+      selectedCarColor: color,
+      selectedModelColorsDescription: selectedModelColorsDescription,
+      selectedModelColorPrice: selectedCarColorPrice,
+      modelDescription: modelDesc
     }
-    this.selectedCarModelColorDetails.next(carModelColorDetails);
+    this.selectedCarModelColorDetails.next(this.carModelColorDetails);
+  }
+  
+  getModelPageData() : CarModelDetails {
+    return this.carModelColorDetails
   }
 
-  getModelColor() {
-    return this.selectedCarModelColorDetails
+
+  setCarConfigSubject(selectedConfigValue:ModelOptionsConfig) : void {
+    this.carConfigSubject.next(selectedConfigValue)
+  }
+
+  setCarModelDetails(getCarModelDetails:CarModelDetails) {
+     this.carModelDetails = getCarModelDetails;
+  }
+
+  getCarModelDetails() : CarModelDetails {
+    return this.carModelDetails
+  }
+
+  setCarConfigData(configData:ModelOptionsConfig) {
+    this.carConfigData = configData;
+  }
+
+  getCarConfigData() : ModelOptionsConfig {
+    return this.carConfigData
+  }
+
+  setTowHitch(towHitch:boolean) {
+    this.towHitchValue = towHitch;
+  }
+
+  getTowHitch() : boolean {
+    return this.towHitchValue
+  }
+
+  setYokeSteering(value:boolean) {
+    this.yokeSteering = value;
+  }
+
+  getYokeSteering() : boolean {
+    return this.yokeSteering
   }
 }

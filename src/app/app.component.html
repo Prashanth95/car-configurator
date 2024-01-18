@@ -1,9 +1,9 @@
 
 <div class="main">
     <div class="row menuItems">
-      <div id="step1" class="col-4 menuStyling" (click)="modelColor()">Step 1</div>
-      <div id="step2" class="col-4 menuStyling">Step 2</div>
-      <div id="step3" class="col-4 menuStyling">Step 3</div>
+      <button id="step1" class="col-4 menuStyling" (click)="modelColor()">Step 1</button>
+      <button id="step2" class="col-4 menuStyling" [ngClass]="carModelColorObj ? '' : 'disableButton'" (click)="configOptions()">Step 2</button>
+      <button id="step3" class="col-4 menuStyling" [ngClass]="carModelColorObj && carConfigData ? '' : 'disableButton'" (click)="totalCost()">Step 3</button>
     </div>
 </div>
 
